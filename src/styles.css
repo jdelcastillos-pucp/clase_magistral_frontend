@@ -94,6 +94,29 @@ button:hover {
   background: #fff;
 }
 
+/* Tooltip propio para el hover (mouse over) sobre nodos. */
+.node-tooltip {
+  position: fixed;
+  z-index: 1000;
+  background: #1a202c;
+  color: #fff;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  max-width: 260px;
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  white-space: normal;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.node-tooltip.show {
+  opacity: 1;
+}
+
 .detail-panel {
   width: 0;
   overflow: hidden auto;

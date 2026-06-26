@@ -26,6 +26,29 @@ const els = {
 let network = null;
 // Último grafo NEUTRO renderizado (para derivar prerequisitos en el panel).
 let currentGraph = { nodes: [], edges: [] };
+// Mapa id -> nombre del curso (incluye stubs externos), para el tooltip.
+let nodeNameById = {};
+
+// Tooltip propio para el hover (mouse over) sobre nodos.
+const tooltipEl = document.createElement("div");
+tooltipEl.className = "node-tooltip";
+document.body.appendChild(tooltipEl);
+
+function showNodeTooltip(nodeId) {
+  if (!network) return;
+  const p = network.getPositions([nodeId])[nodeId];
+  if (!p) return;
+  const dom = network.canvasToDOM(p);
+  const rect = els.graph.getBoundingClientRect();
+  tooltipEl.textContent = nodeNameById[nodeId] ?? nodeId;
+  tooltipEl.style.left = `${rect.left + dom.x}px`;
+  tooltipEl.style.top = `${rect.top + dom.y - 18}px`;
+  tooltipEl.classList.add("show");
+}
+
+function hideNodeTooltip() {
+  tooltipEl.classList.remove("show");
+}
 
 const VIS_OPTIONS = {
   layout: {
@@ -118,18 +141,42 @@ function setStatus(msg, kind = "info") {
 function render(graph) {
   currentGraph = graph;
   const visData = toVisData(graph);
+
+  // Se quita `title` para no duplicar el tooltip nativo de vis con el propio.
   const data = {
-    nodes: new window.vis.DataSet(visData.nodes),
+    nodes: new window.vis.DataSet(
+      visData.nodes.map(({ title, ...rest }) => rest)
+    ),
     edges: new window.vis.DataSet(visData.edges),
   };
 
+  // Mapas auxiliares para tooltip (nombre) y swimlanes (nivel).
+  nodeNameById = {};
+  const levelById = {};
+  for (const n of visData.nodes) {
+    nodeNameById[n.id] = n.name ?? n.id;
+    levelById[n.id] = n.level;
+  }
+
   if (network) network.destroy();
+  hideNodeTooltip();
   network = new window.vis.Network(els.graph, data, VIS_OPTIONS);
 
   // Swimlanes por ciclo: dibujadas de fondo en cada redraw.
-  const levelById = {};
-  for (const n of visData.nodes) levelById[n.id] = n.level;
   network.on("beforeDrawing", (ctx) => drawSwimlanes(ctx, network, levelById));
+
+  // Mouse over: muestra el nombre del curso y cambia el cursor.
+  network.on("hoverNode", (params) => {
+    els.graph.style.cursor = "pointer";
+    showNodeTooltip(params.node);
+  });
+  network.on("blurNode", () => {
+    els.graph.style.cursor = "default";
+    hideNodeTooltip();
+  });
+  // El tooltip quedaría descolocado al mover/zoom; se oculta.
+  network.on("dragStart", hideNodeTooltip);
+  network.on("zoom", hideNodeTooltip);
 
   network.on("click", (params) => {
     if (params.nodes.length > 0) {
