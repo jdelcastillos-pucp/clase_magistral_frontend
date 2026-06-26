@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+.DS_Store
+*.log
+
+# Nunca commitear secretos
+secrets.md
+.env
+.env.*

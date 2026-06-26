@@ -1,0 +1,1201 @@
+{
+  "metadata": {
+    "carrera": "Ingeniería Informática",
+    "universidad": "PUCP",
+    "plan": "2026-1",
+    "totalCursos": 88,
+    "tiposRequisito": {
+      "aprobado": "Haber aprobado el curso",
+      "simultaneo": "Haber cursado o cursar simultáneamente",
+      "nota08": "Haber cursado con nota 08 o más",
+      "especial": "Requisito especial { }"
+    },
+    "prerequisitosExternos": [
+      "1FIS06",
+      "1FIS07",
+      "1MAT09",
+      "INF134",
+      "INF144"
+    ]
+  },
+  "courses": [
+    {
+      "id": "1GES92",
+      "name": "Taller de Habilidades Interpersonales",
+      "credits": 1.0,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [],
+      "creditRequirement": 70
+    },
+    {
+      "id": "1IND90",
+      "name": "Empresa y su Entorno",
+      "credits": 2.0,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [],
+      "creditRequirement": 70
+    },
+    {
+      "id": "1INF25",
+      "name": "Programación 2",
+      "credits": 5.0,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "INF144",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF27",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF27",
+      "name": "Algoritmia y Estructura de Datos",
+      "credits": 3.5,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "INF144",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF28",
+      "name": "Fundamentos de Sistemas de Información",
+      "credits": 3.5,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF33",
+          "type": "simultaneo"
+        }
+      ],
+      "creditRequirement": 70
+    },
+    {
+      "id": "1INF33",
+      "name": "Base de Datos",
+      "credits": 3.5,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "INF144",
+          "type": "especial"
+        }
+      ],
+      "creditRequirement": 70
+    },
+    {
+      "id": "1INF49",
+      "name": "Ingeniería de Requisitos",
+      "credits": 3.5,
+      "cycle": 5,
+      "type": "obligatorio",
+      "prerequisites": [],
+      "creditRequirement": 70
+    },
+    {
+      "id": "1CON27",
+      "name": "Contabilidad y Finanzas",
+      "credits": 2.5,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1IND90",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1ELE01",
+      "name": "Arquitectura de Computadoras",
+      "credits": 3.5,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1FIS06",
+          "type": "aprobado"
+        },
+        {
+          "course": "1FIS07",
+          "type": "aprobado"
+        },
+        {
+          "course": "INF134",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1EST22",
+      "name": "Probabilidad y Estadística",
+      "credits": 3.5,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1MAT09",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF29",
+      "name": "Sistemas Operativos",
+      "credits": 2.5,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1ELE01",
+          "type": "simultaneo"
+        },
+        {
+          "course": "1INF25",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF30",
+      "name": "Programación 3",
+      "credits": 5.0,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF25",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF33",
+          "type": "nota08"
+        },
+        {
+          "course": "1INF27",
+          "type": "nota08"
+        }
+      ]
+    },
+    {
+      "id": "1INF31",
+      "name": "Arquitectura de Software",
+      "credits": 2.5,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF49",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF32",
+      "name": "Algoritmos Avanzados",
+      "credits": 2.5,
+      "cycle": 6,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF27",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF25",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1EST14",
+      "name": "Experimentación Numérica",
+      "credits": 2.0,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1EST22",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF24",
+      "name": "Inteligencia Artificial",
+      "credits": 3.5,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF32",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF34",
+      "name": "Modelado y Automatización de Procesos Empresariales",
+      "credits": 3.5,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1CON27",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF28",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF35",
+      "name": "Administración de Sistemas Operativos",
+      "credits": 2.5,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF29",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF50",
+      "name": "Diseño de Software",
+      "credits": 2.5,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF31",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "IND231",
+      "name": "Ingeniería Económica",
+      "credits": 3.5,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [],
+      "creditRequirement": 80
+    },
+    {
+      "id": "INF238",
+      "name": "Redes de Computadoras",
+      "credits": 4.0,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1ELE01",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "IDM201",
+      "name": "Idioma Extranjero (inglés)",
+      "credits": 0.0,
+      "cycle": 7,
+      "type": "obligatorio",
+      "prerequisites": []
+    },
+    {
+      "id": "1INF26",
+      "name": "Formulación de Proyecto de Fin de Carrera",
+      "credits": 2.0,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1EST14",
+          "type": "simultaneo"
+        },
+        {
+          "course": "1INF37",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF36",
+      "name": "Ética y RSU en Ingeniería Informática",
+      "credits": 2.5,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [],
+      "creditRequirement": 140
+    },
+    {
+      "id": "1INF37",
+      "name": "Ingeniería de Software",
+      "credits": 3.5,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF30",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF50",
+          "type": "aprobado"
+        },
+        {
+          "course": "INF238",
+          "type": "especial"
+        }
+      ]
+    },
+    {
+      "id": "1INF38",
+      "name": "Innovación y Emprendimiento con Tecnologías de Información",
+      "credits": 3.0,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF34",
+          "type": "aprobado"
+        },
+        {
+          "course": "IND231",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF39",
+      "name": "Gobierno y Gestión de Tecnologías de Información",
+      "credits": 3.5,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF34",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF40",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF40",
+      "name": "Tecnologías de Información para los Negocios",
+      "credits": 3.5,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF34",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF33",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF41",
+      "name": "Seguridad de Información",
+      "credits": 3.5,
+      "cycle": 8,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF39",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF42",
+      "name": "Proyecto de Fin de Carrera 1",
+      "credits": 2.0,
+      "cycle": 9,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF26",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF44",
+      "name": "Arquitectura Empresarial",
+      "credits": 3.0,
+      "cycle": 9,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF45",
+      "name": "Implantación de Sistemas de Información",
+      "credits": 3.0,
+      "cycle": 9,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF54",
+      "name": "Proyecto de Diseño y Desarrollo de Software",
+      "credits": 3.0,
+      "cycle": 9,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        },
+        {
+          "course": "1EST14",
+          "type": "nota08"
+        }
+      ]
+    },
+    {
+      "id": "IND328",
+      "name": "Gestión de Proyectos",
+      "credits": 3.0,
+      "cycle": 9,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF008",
+      "name": "Práctica Supervisada Preprofesional",
+      "credits": 0.5,
+      "cycle": 9,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF34",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF46",
+      "name": "Proyecto de Fin de Carrera 2",
+      "credits": 2.0,
+      "cycle": 10,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF42",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF47",
+      "name": "Proyecto de Implementación de Software",
+      "credits": 3.0,
+      "cycle": 10,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF54",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF48",
+      "name": "Estrategia y Gestión de Sistemas de Información",
+      "credits": 3.5,
+      "cycle": 10,
+      "type": "obligatorio",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1IND40",
+      "name": "Seminario Internacional en Ciencia e Ingeniería 1",
+      "credits": 1.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [],
+      "creditRequirement": 110
+    },
+    {
+      "id": "1IND41",
+      "name": "Seminario Internacional en Ciencia e Ingeniería 2",
+      "credits": 1.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [],
+      "creditRequirement": 110
+    },
+    {
+      "id": "1IND42",
+      "name": "Seminario Internacional en Ciencia e Ingeniería 3",
+      "credits": 1.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [],
+      "creditRequirement": 110
+    },
+    {
+      "id": "1INF02",
+      "name": "Aprendizaje de Máquina",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF03",
+      "name": "Análisis de Datos",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF06",
+      "name": "Estructura de Datos y Programación Metódica",
+      "credits": 4.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "INF144",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF27",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF08",
+      "name": "Transformación Digital de Negocios",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF11",
+      "name": "Gobierno Electrónico",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF39",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF12",
+      "name": "Temas Avanzados en Ciencias de la Computación",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF20",
+      "name": "Ciberseguridad",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF41",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF21",
+      "name": "Informática Forense",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "INF238",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "1INF22",
+      "name": "Gestión de Riesgos Tecnológicos",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF39",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF51",
+      "name": "Sistemas Administradores de Bases de Datos",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF35",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF52",
+      "name": "Deep Learning",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF55",
+      "name": "Rediseño de interfaces gráficas en Sistemas de información empresarial",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF56",
+      "name": "Programación para Sistemas de Información Empresarial",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF57",
+      "name": "Sistemas Empresariales para la Gestión Financiera",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF58",
+      "name": "Sistemas Empresariales para la Gestión de la Cadena en Suministros",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF59",
+      "name": "Procesamiento de Lenguaje Natural",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF60",
+      "name": "Aprendizaje por Refuerzo",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF61",
+      "name": "Temas Avanzados de Inteligencia Artificial",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF62",
+      "name": "Inteligencia Artificial Aplicada",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "1INF63",
+      "name": "Introducción a los Sistemas de Información Hospitalarios",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "CIC611",
+      "name": "Matemáticas para computación",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [],
+      "creditRequirement": 175
+    },
+    {
+      "id": "DER349",
+      "name": "Derecho para Ingenieros Informáticos",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [],
+      "creditRequirement": 140
+    },
+    {
+      "id": "IEE229",
+      "name": "Electrónica Digital",
+      "credits": 3.75,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "INF134",
+          "type": "aprobado"
+        },
+        {
+          "course": "1FIS06",
+          "type": "aprobado"
+        },
+        {
+          "course": "1FIS07",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF275",
+      "name": "Seguridad Computacional",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "INF238",
+          "type": "simultaneo"
+        }
+      ]
+    },
+    {
+      "id": "INF309",
+      "name": "Desarrollo de Videojuegos",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF310",
+      "name": "Teoría de Grafos",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF30",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF320",
+      "name": "Programación en Dispositivos Móviles",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF30",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF50",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF340",
+      "name": "Auditoría de Sistemas y Tecnologías de Información",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [],
+      "creditRequirement": 180
+    },
+    {
+      "id": "INF342",
+      "name": "Seminario de Informática",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF356",
+      "name": "Tecnologías Web",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF30",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF357",
+      "name": "Inteligencia de Negocios",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF370",
+      "name": "Calidad de Software",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF372",
+      "name": "Gráficos en Computación",
+      "credits": 4.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF30",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF373",
+      "name": "Teoría de Compiladores",
+      "credits": 4.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF30",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF377",
+      "name": "Sistemas de Información Gerencial",
+      "credits": 4.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF40",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF378",
+      "name": "Sistemas Expertos",
+      "credits": 4.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF382",
+      "name": "Temas avanzados en Sist. de Información 01",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF28",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF49",
+          "type": "aprobado"
+        }
+      ],
+      "creditRequirement": 120
+    },
+    {
+      "id": "INF383",
+      "name": "Temas avanzados en Sist. de Información 02",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF28",
+          "type": "aprobado"
+        },
+        {
+          "course": "1INF49",
+          "type": "aprobado"
+        }
+      ],
+      "creditRequirement": 120
+    },
+    {
+      "id": "INF384",
+      "name": "Temas avanzados en Ing. de Software 01",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF385",
+      "name": "Temas avanzados en Ing. de Software 02",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF386",
+      "name": "Temas avanzados en Tecnología de Inf. 01",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF39",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF387",
+      "name": "Temas avanzados en Tecnología de Inf. 02",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF39",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF388",
+      "name": "Temas avanzados en Ing. Computadora 01",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "INF238",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF389",
+      "name": "Temas avanzados en Computación",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF24",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "INF390",
+      "name": "Continuidad de las Tecnologías de Información",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF39",
+          "type": "aprobado"
+        }
+      ]
+    },
+    {
+      "id": "TEO240",
+      "name": "Teología 2",
+      "credits": 3.0,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": []
+    },
+    {
+      "id": "INFXXX",
+      "name": "DevSecOps",
+      "credits": 3.5,
+      "cycle": null,
+      "type": "electivo",
+      "prerequisites": [
+        {
+          "course": "1INF37",
+          "type": "aprobado"
+        }
+      ]
+    }
+  ]
+}
