@@ -47,12 +47,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Semgrep CI (bloqueante; sube resultados a semgrep.dev)
+      - name: Semgrep CI (bloqueante; reglas y subida vía Semgrep AppSec Platform)
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          semgrep ci --config p/default --config p/javascript
+          # Con SEMGREP_APP_TOKEN, `semgrep ci` toma las reglas del policy en
+          # semgrep.dev y sube hallazgos; no se permite --config estando logueado.
+          semgrep ci
 
   # Deploy: solo tras quality y security
   deploy:
