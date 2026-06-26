@@ -68,8 +68,9 @@ jobs:
             echo "::error::Falta la variable de repo BACKEND_URL (Settings > Variables)."
             exit 1
           fi
-          sed -i "s|__BACKEND_URL__|${{ vars.BACKEND_URL }}|g" src/config.js
-          echo "config.js configurado."
+          sed -i "s|export const BACKEND_URL = \"__BACKEND_URL__\";|export const BACKEND_URL = \"${{ vars.BACKEND_URL }}\";|" src/config.js
+          echo "config.js configurado:"
+          grep "export const BACKEND_URL" src/config.js
 
       - name: Configure AWS credentials (Learner Lab, temporales)
         uses: aws-actions/configure-aws-credentials@v4

@@ -10,7 +10,11 @@
 
 export const BACKEND_URL = "__BACKEND_URL__";
 
-/** true si BACKEND_URL aún no fue configurado (sigue siendo el placeholder). */
+/**
+ * true si BACKEND_URL es una URL http(s) válida (configurada).
+ * Detecta por forma de URL en vez de comparar con el literal del placeholder,
+ * para que el reemplazo del CD (sed) no pueda romper esta verificación.
+ */
 export function isBackendConfigured(url = BACKEND_URL) {
-  return typeof url === "string" && url.length > 0 && !url.includes("__BACKEND_URL__");
+  return typeof url === "string" && /^https?:\/\//.test(url);
 }

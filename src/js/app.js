@@ -5,7 +5,14 @@
 // panel lateral. `vis` se carga por CDN (window.vis) desde index.html.
 
 import { fetchSearch, fetchFullWithFallback } from "./api.js";
-import { toVisData, prerequisitesOf, EDGE_STYLES } from "./graph.js";
+import {
+  toVisData,
+  prerequisitesOf,
+  keepOnlyObligatorios,
+  EDGE_STYLES,
+  EXTERNAL_LEVEL,
+  ELECTIVE_LEVEL,
+} from "./graph.js";
 
 const els = {
   search: document.getElementById("search-input"),
@@ -19,22 +26,111 @@ const els = {
 let network = null;
 // Último grafo NEUTRO renderizado (para derivar prerequisitos en el panel).
 let currentGraph = { nodes: [], edges: [] };
+// Mapa id -> nombre del curso (incluye stubs externos), para el tooltip.
+let nodeNameById = {};
+
+// Tooltip propio para el hover (mouse over) sobre nodos.
+const tooltipEl = document.createElement("div");
+tooltipEl.className = "node-tooltip";
+document.body.appendChild(tooltipEl);
+
+function showNodeTooltip(nodeId) {
+  if (!network) return;
+  const p = network.getPositions([nodeId])[nodeId];
+  if (!p) return;
+  const dom = network.canvasToDOM(p);
+  const rect = els.graph.getBoundingClientRect();
+  tooltipEl.textContent = nodeNameById[nodeId] ?? nodeId;
+  tooltipEl.style.left = `${rect.left + dom.x}px`;
+  tooltipEl.style.top = `${rect.top + dom.y - 18}px`;
+  tooltipEl.classList.add("show");
+}
+
+function hideNodeTooltip() {
+  tooltipEl.classList.remove("show");
+}
 
 const VIS_OPTIONS = {
   layout: {
     hierarchical: {
       enabled: true,
-      direction: "UD",
+      direction: "LR", // izquierda->derecha: cada ciclo es una columna (swimlane)
       sortMethod: "directed",
-      levelSeparation: 120,
-      nodeSpacing: 140,
+      levelSeparation: 260,
+      nodeSpacing: 95,
+      treeSpacing: 110,
     },
   },
   physics: false,
   interaction: { hover: true, tooltipDelay: 150 },
-  nodes: { font: { size: 14 }, borderWidth: 1, margin: 8 },
-  edges: { smooth: { type: "cubicBezier", roundness: 0.4 } },
+  nodes: { font: { size: 13 }, borderWidth: 1, margin: 8, widthConstraint: { maximum: 160 } },
+  edges: { smooth: { type: "cubicBezier", forceDirection: "horizontal", roundness: 0.4 } },
 };
+
+/** Etiqueta de la swimlane según el nivel jerárquico. */
+function laneLabel(level) {
+  if (level === EXTERNAL_LEVEL) return "Prerreq.";
+  if (level === ELECTIVE_LEVEL) return "Electivos";
+  return `Ciclo ${level}`;
+}
+
+/**
+ * Dibuja swimlanes verticales (una por ciclo) de fondo, con su etiqueta arriba.
+ * Se llama en cada redraw (evento beforeDrawing), donde el contexto ya está en
+ * coordenadas del grafo.
+ */
+function drawSwimlanes(ctx, net, levelById) {
+  const ids = Object.keys(levelById);
+  if (ids.length === 0) return;
+  const positions = net.getPositions(ids);
+
+  const xsByLevel = new Map();
+  let yMin = Infinity;
+  let yMax = -Infinity;
+  for (const id of ids) {
+    const p = positions[id];
+    if (!p) continue;
+    const lvl = levelById[id];
+    if (!xsByLevel.has(lvl)) xsByLevel.set(lvl, []);
+    xsByLevel.get(lvl).push(p.x);
+    yMin = Math.min(yMin, p.y);
+    yMax = Math.max(yMax, p.y);
+  }
+  if (!Number.isFinite(yMin)) return;
+
+  const lanes = [...xsByLevel.entries()]
+    .map(([lvl, xs]) => ({ lvl: Number(lvl), x: xs.reduce((a, b) => a + b, 0) / xs.length }))
+    .sort((a, b) => a.x - b.x);
+
+  const fallbackHalf = 80;
+  const top = yMin - 70;
+  const bottom = yMax + 45;
+
+  ctx.save();
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  ctx.font = "bold 15px system-ui, sans-serif";
+  for (let i = 0; i < lanes.length; i++) {
+    const cur = lanes[i];
+    const prev = lanes[i - 1];
+    const next = lanes[i + 1];
+    const left = cur.x - (prev ? (cur.x - prev.x) / 2 : fallbackHalf);
+    const right = cur.x + (next ? (next.x - cur.x) / 2 : fallbackHalf);
+
+    ctx.fillStyle = i % 2 === 0 ? "rgba(43,108,176,0.06)" : "rgba(47,133,90,0.06)";
+    ctx.fillRect(left, top, right - left, bottom - top);
+
+    ctx.strokeStyle = "rgba(0,0,0,0.08)";
+    ctx.beginPath();
+    ctx.moveTo(left, top);
+    ctx.lineTo(left, bottom);
+    ctx.stroke();
+
+    ctx.fillStyle = "#4a5568";
+    ctx.fillText(laneLabel(cur.lvl), cur.x, top + 6);
+  }
+  ctx.restore();
+}
 
 function setStatus(msg, kind = "info") {
   els.status.textContent = msg;
@@ -45,13 +141,42 @@ function setStatus(msg, kind = "info") {
 function render(graph) {
   currentGraph = graph;
   const visData = toVisData(graph);
+
+  // Se quita `title` para no duplicar el tooltip nativo de vis con el propio.
   const data = {
-    nodes: new window.vis.DataSet(visData.nodes),
+    nodes: new window.vis.DataSet(
+      visData.nodes.map(({ title, ...rest }) => rest)
+    ),
     edges: new window.vis.DataSet(visData.edges),
   };
 
+  // Mapas auxiliares para tooltip (nombre) y swimlanes (nivel).
+  nodeNameById = {};
+  const levelById = {};
+  for (const n of visData.nodes) {
+    nodeNameById[n.id] = n.name ?? n.id;
+    levelById[n.id] = n.level;
+  }
+
   if (network) network.destroy();
+  hideNodeTooltip();
   network = new window.vis.Network(els.graph, data, VIS_OPTIONS);
+
+  // Swimlanes por ciclo: dibujadas de fondo en cada redraw.
+  network.on("beforeDrawing", (ctx) => drawSwimlanes(ctx, network, levelById));
+
+  // Mouse over: muestra el nombre del curso y cambia el cursor.
+  network.on("hoverNode", (params) => {
+    els.graph.style.cursor = "pointer";
+    showNodeTooltip(params.node);
+  });
+  network.on("blurNode", () => {
+    els.graph.style.cursor = "default";
+    hideNodeTooltip();
+  });
+  // El tooltip quedaría descolocado al mover/zoom; se oculta.
+  network.on("dragStart", hideNodeTooltip);
+  network.on("zoom", hideNodeTooltip);
 
   network.on("click", (params) => {
     if (params.nodes.length > 0) {
@@ -154,9 +279,11 @@ async function onFull() {
   setStatus("Cargando malla completa…");
   try {
     const { graph, source } = await fetchFullWithFallback();
-    render(graph);
+    // Solo obligatorios: la malla completa con electivos es demasiado densa.
+    const obligatorios = keepOnlyObligatorios(graph);
+    render(obligatorios);
     const origin = source === "local" ? " (copia local)" : "";
-    setStatus(`Malla completa: ${graph.nodes.length} cursos${origin}.`, "ok");
+    setStatus(`Malla completa (obligatorios): ${obligatorios.nodes.length} cursos${origin}.`, "ok");
   } catch (err) {
     setStatus(`Error: ${err.message}`, "error");
   }

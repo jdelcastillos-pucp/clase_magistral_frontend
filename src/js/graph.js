@@ -61,6 +61,12 @@ export const DEFAULT_EDGE_STYLE = Object.freeze({
 /** Nivel asignado a electivos (cycle === null) en el layout jerárquico. */
 export const ELECTIVE_LEVEL = 11;
 
+/**
+ * Nivel asignado a prerrequisitos EXTERNOS (cursos previos a ciclo 5 que no son
+ * de la malla, p.ej. INF144). Se ponen a la izquierda de ciclo 5.
+ */
+export const EXTERNAL_LEVEL = 4;
+
 // ---------------------------------------------------------------------------
 // 1. courses crudos -> grafo neutro { nodes, edges }
 // ---------------------------------------------------------------------------
@@ -100,6 +106,36 @@ export function coursesToGraph(courses) {
       edges.push({ from: p.course, to: c.id, type: p.type ?? null });
     }
   }
+
+  return { nodes, edges };
+}
+
+/**
+ * Filtra un grafo neutro para dejar SOLO cursos obligatorios (quita electivos).
+ *
+ * - Conserva los nodos con `type === "obligatorio"`.
+ * - Conserva las aristas cuyo destino (`to`) es obligatorio y cuyo origen
+ *   (`from`) es obligatorio o un prerrequisito externo (ausente del grafo).
+ *   Así no se pierden las dependencias hacia prereqs externos (INF144, etc.),
+ *   que luego `toVisData` materializa como nodos stub.
+ *
+ * @param {{nodes?: Array<object>, edges?: Array<object>}} graph
+ * @returns {{nodes: Array<object>, edges: Array<object>}}
+ */
+export function keepOnlyObligatorios(graph) {
+  const inNodes = Array.isArray(graph?.nodes) ? graph.nodes : [];
+  const inEdges = Array.isArray(graph?.edges) ? graph.edges : [];
+
+  const nodes = inNodes.filter((n) => n && n.type === COURSE_TYPES.OBLIGATORIO);
+  const keptIds = new Set(nodes.map((n) => n.id));
+  const allIds = new Set(inNodes.filter((n) => n && n.id != null).map((n) => n.id));
+
+  const edges = inEdges.filter((e) => {
+    if (!e || e.from == null || e.to == null) return false;
+    const toKept = keptIds.has(e.to); // el curso que exige el prereq es obligatorio
+    const fromKeptOrExternal = keptIds.has(e.from) || !allIds.has(e.from);
+    return toKept && fromKeptOrExternal;
+  });
 
   return { nodes, edges };
 }
@@ -218,7 +254,7 @@ function buildVisNode(n, isExternal) {
     type,
     external: Boolean(isExternal),
     group: colorKey,
-    level: levelForCycle(n.cycle),
+    level: isExternal ? EXTERNAL_LEVEL : levelForCycle(n.cycle),
     color: NODE_COLORS[colorKey],
     shape: "box",
   };

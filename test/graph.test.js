@@ -3,12 +3,14 @@ import {
   coursesToGraph,
   toVisData,
   prerequisitesOf,
+  keepOnlyObligatorios,
   levelForCycle,
   edgeStyleFor,
   EDGE_STYLES,
   DEFAULT_EDGE_STYLE,
   NODE_COLORS,
   ELECTIVE_LEVEL,
+  EXTERNAL_LEVEL,
 } from "../src/js/graph.js";
 
 // Subconjunto realista de courses.json (forma cruda del backend/data).
@@ -140,6 +142,7 @@ describe("toVisData", () => {
     expect(stub.external).toBe(true);
     expect(stub.color).toEqual(NODE_COLORS.externo);
     expect(stub.group).toBe("externo");
+    expect(stub.level).toBe(EXTERNAL_LEVEL); // a la izquierda de ciclo 5
   });
 
   it("no rompe ante edge.type desconocido", () => {
@@ -162,6 +165,33 @@ describe("toVisData", () => {
   it("es robusto ante grafo vacío o nulo", () => {
     expect(toVisData(null)).toEqual({ nodes: [], edges: [] });
     expect(toVisData({})).toEqual({ nodes: [], edges: [] });
+  });
+});
+
+describe("keepOnlyObligatorios", () => {
+  it("quita los electivos y conserva los obligatorios", () => {
+    const graph = coursesToGraph(SAMPLE_COURSES);
+    const { nodes } = keepOnlyObligatorios(graph);
+    const ids = nodes.map((n) => n.id).sort();
+    expect(ids).toEqual(["1INF30", "1INF33"]); // 1INF20 (electivo) fuera
+    expect(nodes.every((n) => n.type === "obligatorio")).toBe(true);
+  });
+
+  it("conserva aristas hacia obligatorios (incluido prereq externo) y descarta las que van a electivos", () => {
+    const graph = coursesToGraph(SAMPLE_COURSES);
+    const { edges } = keepOnlyObligatorios(graph);
+    // hacia obligatorios:
+    expect(edges).toContainEqual({ from: "INF144", to: "1INF33", type: "especial" });
+    expect(edges).toContainEqual({ from: "1INF25", to: "1INF30", type: "aprobado" });
+    expect(edges).toContainEqual({ from: "1INF33", to: "1INF30", type: "nota08" });
+    // hacia el electivo 1INF20 (desde 1INF41) -> descartada:
+    expect(edges.some((e) => e.to === "1INF20")).toBe(false);
+    expect(edges).toHaveLength(3);
+  });
+
+  it("es robusto ante grafo vacío o nulo", () => {
+    expect(keepOnlyObligatorios(null)).toEqual({ nodes: [], edges: [] });
+    expect(keepOnlyObligatorios({})).toEqual({ nodes: [], edges: [] });
   });
 });
 
