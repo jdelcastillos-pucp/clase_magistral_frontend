@@ -1,0 +1,20 @@
+{
+  "name": "malla-curricular-frontend",
+  "version": "1.0.0",
+  "description": "Visualizador estático (S3) de la malla curricular de Ingeniería Informática PUCP. Sin build: HTML + módulos ES + vis-network por CDN.",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

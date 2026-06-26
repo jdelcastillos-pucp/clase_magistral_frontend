@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malla Curricular — Ingeniería Informática PUCP</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- vis-network por CDN (sin build). Con SRI (integrity) + crossorigin:
+         el navegador verifica el hash del recurso del CDN antes de ejecutarlo. -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/vis-network@9.1.9/styles/vis-network.min.css"
+      integrity="sha384-dyJxWiQJAf9QvdWzvgaFgxG2+qGBlxRcGINxMWNJBYZ7731QjuquKfhX2OUkb22J"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"
+      integrity="sha384-yxKDWWf0wwdUj/gPeuL11czrnKFQROnLgY8ll7En9NYoXibgg3C6NK/UDHNtUgWJ"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Malla Curricular — Ing. Informática PUCP</h1>
+      <div class="controls">
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Código o nombre del curso (ej. 1INF33, Base de Datos)"
+          aria-label="Buscar curso"
+        />
+        <button id="search-btn" type="button">Buscar</button>
+        <button id="full-btn" type="button" class="secondary">Ver malla completa</button>
+      </div>
+      <p id="status" class="status" data-kind="info"></p>
+    </header>
+
+    <main class="layout">
+      <section id="graph" class="graph" aria-label="Grafo de cursos"></section>
+      <aside id="detail-panel" class="detail-panel" aria-live="polite"></aside>
+    </main>
+
+    <footer class="legend">
+      <span class="legend-item"><span class="swatch node-obl"></span> Obligatorio</span>
+      <span class="legend-item"><span class="swatch node-ele"></span> Electivo</span>
+      <span class="legend-item"><span class="swatch node-ext"></span> Prereq. externo</span>
+      <span class="legend-sep">·</span>
+      <span class="legend-item"><span class="edge solid"></span> aprobado</span>
+      <span class="legend-item"><span class="edge dashed"></span> simultáneo</span>
+      <span class="legend-item"><span class="edge dotted"></span> nota ≥ 08</span>
+      <span class="legend-item"><span class="edge special"></span> especial</span>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
