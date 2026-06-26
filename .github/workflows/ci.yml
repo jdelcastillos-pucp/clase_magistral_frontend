@@ -1,13 +1,12 @@
-name: CI/CD
+name: CI
 
+# CI: se ejecuta en cada Pull Request a main (gate antes de mergear).
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  # 1) Calidad: tests + cobertura + SonarCloud
+  # Calidad: tests + cobertura + SonarCloud
   quality:
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +35,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  # 2) Seguridad: Semgrep BLOQUEANTE (--error => exit != 0 si hay findings)
+  # Seguridad: Semgrep bloqueante; sube resultados a Semgrep AppSec Platform
   security:
     runs-on: ubuntu-latest
     container:
@@ -47,46 +46,9 @@ jobs:
         with:
           fetch-depth: 0 # semgrep ci hace scan diff-aware en PRs
 
-      # `semgrep ci` (no `scan`) SUBE los resultados a Semgrep AppSec Platform
-      # cuando SEMGREP_APP_TOKEN está presente. Es bloqueante por defecto
-      # (exit != 0 si hay findings). Rulesets explícitos p/default + p/javascript.
       - name: Semgrep CI (bloqueante; sube resultados a semgrep.dev)
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           semgrep ci --config p/default --config p/javascript
-
-  # 3) Deploy: solo push a main, tras quality y security
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: [quality, security]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Inyectar BACKEND_URL en config.js
-        run: |
-          if [ -z "${{ vars.BACKEND_URL }}" ]; then
-            echo "::error::Falta la variable de repo BACKEND_URL (Settings > Variables)."
-            exit 1
-          fi
-          sed -i "s|__BACKEND_URL__|${{ vars.BACKEND_URL }}|g" src/config.js
-          echo "config.js configurado."
-
-      - name: Configure AWS credentials (Learner Lab, temporales)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
-
-      - name: Sync sitio estático a S3
-        run: |
-          if [ -z "${{ vars.S3_BUCKET }}" ]; then
-            echo "::error::Falta la variable de repo S3_BUCKET (Settings > Variables)."
-            exit 1
-          fi
-          aws s3 sync ./src s3://${{ vars.S3_BUCKET }} --delete

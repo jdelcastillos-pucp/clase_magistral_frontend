@@ -63,13 +63,17 @@ pnpm dlx serve src  # o: python3 -m http.server -d src 8080
 
 ## CI/CD (GitHub Actions)
 
-[`.github/workflows/ci.yml`](.github/workflows/ci.yml) — dispara en push y PR a `main`:
+Dos workflows separados:
 
-1. **quality** — `pnpm coverage` + escaneo de **SonarCloud** (`SONAR_TOKEN`).
-2. **security** — **Semgrep** `p/default` + `p/javascript`, **bloqueante**
-   (`--error`: el job falla si hay findings).
-3. **deploy** — solo en **push a `main`**, tras `quality` y `security`: inyecta
-   `BACKEND_URL` en `config.js` y `aws s3 sync ./src s3://$S3_BUCKET --delete`.
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) — **CI, en PR a `main`**:
+  1. **quality** — `pnpm coverage` + escaneo de **SonarCloud** (`SONAR_TOKEN`).
+  2. **security** — **Semgrep** (`semgrep ci --config p/default --config p/javascript`),
+     **bloqueante** (falla si hay findings) y sube los resultados a Semgrep AppSec
+     Platform (`SEMGREP_APP_TOKEN`).
+- [`.github/workflows/cd.yml`](.github/workflows/cd.yml) — **CD, en push a `main`**:
+  revalida **quality** + **security** y, con `needs: [quality, security]`, el job
+  **deploy** inyecta `BACKEND_URL` en `config.js` y hace
+  `aws s3 sync ./src s3://$S3_BUCKET --delete`.
 
 ### Secrets y variables del repo (GitHub → Settings)
 
