@@ -44,11 +44,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # semgrep ci hace scan diff-aware en PRs
 
-      - name: Semgrep (p/default + p/javascript, bloqueante)
+      # `semgrep ci` (no `scan`) SUBE los resultados a Semgrep AppSec Platform
+      # cuando SEMGREP_APP_TOKEN está presente. Es bloqueante por defecto
+      # (exit != 0 si hay findings). Rulesets explícitos p/default + p/javascript.
+      - name: Semgrep CI (bloqueante; sube resultados a semgrep.dev)
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-        run: semgrep scan --config p/default --config p/javascript --error
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          semgrep ci --config p/default --config p/javascript
 
   # 3) Deploy: solo push a main, tras quality y security
   deploy:
